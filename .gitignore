@@ -1,0 +1,54 @@
+# Python-specific
+__pycache__/
+*.pyc
+*.pyd
+.python-version
+env/
+venv/
+ENV/
+.venv/
+*.egg-info/
+build/
+dist/
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+
+# Log files
+*.log
+
+# OS-specific files (if you encounter them)
+.DS_Store
+Thumbs.db
+
+# Packages/dependencies (if you have a specific folder for them)
+# packages/
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*.bak
+*.asv
+~$*
+
+# Editor/IDE specific files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Deployment specific (if you have these locally)
+# railway.toml
+# .railway/
+
+# Ignore compiled dependencies (if you build them locally)
+# *.so
+# *.dll
