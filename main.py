@@ -1,44 +1,38 @@
-import discord
-from discord.ext import commands
 import os
 from dotenv import load_dotenv
-from commands.minigames.rps import rps  # Importing Rock Paper Scissors game
-from commands.minigames.slot import slot  # Importing Slot game
-from commands.minigames.battle import battle, hunt  # Importing Battle game
-from commands.minigames.tebakangka import tebakangka  # Importing Tebak Angka game
-from commands.profile import profile
+import discord
+from discord.ext import commands
 
-# Load .env
 load_dotenv()
-TOKEN = os.getenv("TOKEN")
+TOKEN = os.getenv('FTOKEN')
 
-# Setup Discord Bot
+class Client(commands.Bot):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    async def on_ready(self):
+        print(f'Logged in as {self.user}!')
+
+        try:
+            synced = await self.tree.sync() # Sinkronisasi global
+            print(f'Synced {len(synced)} global commands')
+        except Exception as e:
+            print(f'Error syncing commands: {e}')
+
+    async def on_message(self, message):
+        if message.author == self.user:
+            return
+
+        print(f'[{message.author}]: {message.content}')
+        await self.process_commands(message)
+
 intents = discord.Intents.default()
 intents.message_content = True
-bot = commands.Bot(command_prefix="v", intents=intents)
+bot = Client(command_prefix='v', intents=intents)
 
-# When bot is ready
-@bot.event
-async def on_ready():
-    # Sync slash commands
-    print(f'Logged in as {bot.user}')
-    try:
-        synced = await bot.tree.sync()
-        print(f'Synced {len(synced)} command(s)')
-    except Exception as e:
-        print(e)
+# ✅ Load prefix & slash commands
+from commands import prefix, slash
+slash.setup(bot)
+prefix.setup(bot)
 
-    # Load slash commands
-    from commands import general
-    general.setup(bot)
-
-# Register minigames
-bot.add_command(rps)
-bot.add_command(slot)
-bot.add_command(battle)
-bot.add_command(hunt)
-bot.add_command(tebakangka)
-bot.add_command(profile)
-
-# Run the bot with the TOKEN from .env
 bot.run(TOKEN)
