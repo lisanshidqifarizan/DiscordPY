@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 
 load_dotenv()
-TOKEN = os.getenv('TOKEN')
+TOKEN = os.getenv('FTOKEN')
 
 class Client(commands.Bot):
     def __init__(self, *args, **kwargs):

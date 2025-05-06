@@ -29,3 +29,4 @@ async def hunt_command(ctx):
         f"🏅 Dapet **{coins_earned} coins** dan **{exp_gained} EXP**!\n"
         f"📊 (Sekarang: Level {user_profile.level}, Coins {user_profile.coins})"
     )
+
