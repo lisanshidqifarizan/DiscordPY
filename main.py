@@ -31,8 +31,7 @@ intents.message_content = True
 bot = Client(command_prefix='v', intents=intents)
 
 # ✅ Load prefix & slash commands
-from commands import prefix, slash
-slash.setup(bot)
-prefix.setup(bot)
+from general import setup
+setup(bot)
 
 bot.run(TOKEN)
