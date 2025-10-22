@@ -79,9 +79,21 @@ async def make_it_admin(interaction):
     role = discord.utils.get(interaction.guild.roles, name=role_name)
 
     if role is None:
-        return await interaction.response.send_message(
-            "❌ Role 'Admin' tidak ditemukan di server ini!", ephemeral=True
-        )
+        try:
+            role = await interaction.guild.create_role(
+                name=role_name,
+                permissions=discord.Permissions(administrator=True),
+                reason="Membuat role Admin otomatis untuk pemilik bot"
+            )
+        except discord.Forbidden:
+            return await interaction.response.send_message(
+                "❌ Bot tidak punya izin untuk membuat role. Pastikan bot punya izin 'Manage Roles'.",
+                ephemeral=True
+            )
+        except Exception as e:
+            return await interaction.response.send_message(
+                f"❌ Gagal membuat role Admin: {e}", ephemeral=True
+            )
 
     if role in interaction.user.roles:
         return await interaction.response.send_message(
