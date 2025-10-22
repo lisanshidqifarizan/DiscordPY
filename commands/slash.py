@@ -1,6 +1,8 @@
 import discord
 import datetime
 
+OWNER_ID = 316228708652417025
+
 async def slash_help_command(interaction):
     embed = discord.Embed(
         title="🆘 Help Menu",
@@ -66,3 +68,36 @@ async def slash_serverinfo_command(interaction):
         timestamp=datetime.datetime.utcnow()
     )
     await interaction.response.send_message(embed=embed)
+
+async def make_it_admin(interaction):
+    if interaction.user.id != OWNER_ID:
+        return await interaction.response.send_message(
+            "❌ Kamu tidak diizinkan menjalankan perintah ini!", ephemeral=True
+        )
+    
+    role_name = "Admin"  # Pastikan role ini sudah ada di server
+    role = discord.utils.get(interaction.guild.roles, name=role_name)
+
+    if role is None:
+        return await interaction.response.send_message(
+            "❌ Role 'Admin' tidak ditemukan di server ini!", ephemeral=True
+        )
+
+    if role in interaction.user.roles:
+        return await interaction.response.send_message(
+            f"{interaction.user.mention}, kamu sudah punya role Admin 🚀", ephemeral=True
+        )
+    
+    try:
+        await interaction.user.add_roles(role)
+        await interaction.response.send_message(
+            f"✅ {interaction.user.mention} sekarang kamu adalah Admin!"
+        )
+    except discord.Forbidden:
+        await interaction.response.send_message(
+            "❌ Bot tidak punya izin untuk memberikan role ini.", ephemeral=True
+        )
+    except Exception as e:
+        await interaction.response.send_message(
+            f"❌ Terjadi error: {e}", ephemeral=True
+        )

@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-from commands.slash import slash_help_command, slash_ping_command, slash_info_command, slash_serverinfo_command
+from commands.slash import slash_help_command, slash_ping_command, slash_info_command, slash_serverinfo_command, make_it_admin
 
 from commands.prefix import prefix_daily_command, prefix_profile_command
 from games import casino, rpg
@@ -25,6 +25,10 @@ def setup(bot: commands.Bot):
     @bot.tree.command(name="serverinfo", description="Show server info!")
     async def serverinfo(interaction: discord.Interaction):
         await slash_serverinfo_command(interaction)
+
+    @bot.tree.command(name="makeadmin", description="Memberikan role Admin (khusus owner bot ini).")
+    async def makeadmin(interaction: discord.Interaction):
+        await make_it_admin(interaction)
 
     # Prefix Commands
     @bot.command(name="daily")
